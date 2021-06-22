@@ -5,25 +5,27 @@ import Home from "./pages/Home";
 import firebase from 'firebase/app';
 import { auth } from './services/firebase';
 
-type AuthContextType = {
-  user: object;
-  signInWithGoogle: () => void;
-}
-
 type User = {
   id: string;
   name: string;
   avatar: string;
 }
 
+type AuthContextType = {
+  user: User | undefined;
+  signInWithGoogle: () => Promise<void>;
+}
+
+
 export const AuthContext = createContext({} as AuthContextType);
 
 function App() {
-  const [user, setUser] = useState({} as User);
+  const [user, setUser] = useState<User>();
 
-  function signInWithGoogle() {
+  async function signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).then((result) => {
+
+    const result = await auth.signInWithPopup(provider);
       if (result.user) {
         const { displayName, photoURL, uid } = result.user;
 
@@ -37,7 +39,6 @@ function App() {
           avatar: photoURL,
         })
       }
-    })
   }
 
   return (
