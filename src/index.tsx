@@ -11,3 +11,4 @@ ReactDOM.render(
 
 // DOM - Document Object Model
 // ReactDom renderiza o app dentro do HTML
+// HTML dentro do JS --> JSX = JS + XML
