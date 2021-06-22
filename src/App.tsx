@@ -1,15 +1,18 @@
-// import Button from "./components/Button";
+import { createContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import NewRoom from "./pages/NewRoom";
 import Home from "./pages/Home";
 
+export const TestContext = createContext('');
 
 function App() {
   return (
-    <Switch>
-      <Route path="/" exact component={ Home } />
-      <Route path="/rooms/new" component={ NewRoom } />
-    </Switch>
+    <TestContext.Provider value={'Teste'}>
+      <Switch>
+        <Route path="/" exact component={ Home } />
+        <Route path="/rooms/new" component={ NewRoom } />
+      </Switch>
+    </TestContext.Provider>
   );
 }
 

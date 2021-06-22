@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router-dom';
+import { useContext } from 'react';
 import firebase from 'firebase/app';
 import { auth } from '../services/firebase';
 import illustrationImg from '../assets/images/illustration.svg';
@@ -7,8 +8,11 @@ import googleIconImg from '../assets/images/google-icon.svg';
 import '../styles/auth.scss';
 import Button from '../components/Button';
 
+import { TestContext } from '../App';
+
 function Home() {
   const history = useHistory();
+  const value = useContext(TestContext);
 
   function handleCreateRoom() {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -56,3 +60,4 @@ export default Home;
 
 // Criar a estrutura primeiro, depois fazer a estilização
 // funcionamento do webpack - todas as importações utilizando o JS no React
+// Contexto permite compartilhamento de informações entre as partes da aplicação
