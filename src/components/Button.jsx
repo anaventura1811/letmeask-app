@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-
 function Button() {
   const [counter, setCounter] = useState(0);
 
