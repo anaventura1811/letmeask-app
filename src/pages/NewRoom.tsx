@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 import '../styles/auth.scss';
 import Button from '../components/Button';
+import { AuthContext } from '../App';
 
 function NewRoom() {
+  const { user } = useContext(AuthContext);
+  // Falta recuperar o estado da aplicação p/ conseguir recuperar estado de autenticação, persistência de dados
+
  return (
     <div id="page-auth"> 
       <aside>

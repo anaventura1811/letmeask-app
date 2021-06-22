@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import NewRoom from "./pages/NewRoom";
 import Home from "./pages/Home";
@@ -21,6 +21,24 @@ export const AuthContext = createContext({} as AuthContextType);
 
 function App() {
   const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        const { displayName, photoURL, uid } = user;
+
+        if (!displayName || !photoURL) {
+          throw new Error('Missing information from Google Account.');
+        }
+
+        setUser({
+          id: uid,
+          name: displayName,
+          avatar: photoURL,
+        })
+      }
+    })
+  }, [])
 
   async function signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -62,3 +80,4 @@ export default App;
 // Propriedades - React: informações ou atributos que passamos aos componentes para que
 // eles possam se comportar de maneira diferente
 // --> diferença entre export default and named export
+// useEffect - efeitos colaterais, dispara função toda vez que algo acontecer
