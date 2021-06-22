@@ -17,3 +17,4 @@ export default App;
 // e não com classes
 // Propriedades - React: informações ou atributos que passamos aos componentes para que
 // eles possam se comportar de maneira diferente
+// --> diferença entre export default and named export
