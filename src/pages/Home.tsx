@@ -5,6 +5,8 @@ import googleIconImg from '../assets/images/google-icon.svg';
 import '../styles/auth.scss';
 import Button from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
+import { IoEnterOutline } from "react-icons/io5";
+import { IconContext } from "react-icons";
 
 
 
@@ -40,9 +42,12 @@ function Home() {
               type="text"
               placeholder="Digite o código da sala"
             />
-            <Button type="submit">
-              Entrar na sala
-            </Button>
+            <IconContext.Provider value={{ className: "react-icons", color: "#fff",  style: { verticalAlign: 'middle', marginRight: "10px" }}}>
+              <Button type="submit">
+                <IoEnterOutline size={20} />
+                Entrar na sala
+              </Button>
+            </IconContext.Provider>
           </form>
         </div>
       </main>
