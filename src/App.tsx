@@ -1,12 +1,15 @@
 // import Button from "./components/Button";
 
-import Home from "./pages/Home";
+import NewRoom from "./pages/NewRoom";
+
+// import Home from "./pages/Home";
 
 
 function App() {
   return (
     <>
-      <Home />
+      {/* <Home /> */}
+      <NewRoom />
     </>
   );
 }
