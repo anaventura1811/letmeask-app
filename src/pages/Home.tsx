@@ -42,7 +42,11 @@ function Home() {
               type="text"
               placeholder="Digite o código da sala"
             />
-            <IconContext.Provider value={{ className: "react-icons", color: "#fff",  style: { verticalAlign: 'middle', marginRight: "10px" }}}>
+            <IconContext.Provider value={{ 
+                className: "react-icons",
+                color: "#fff",
+                style: { verticalAlign: 'middle', marginRight: "10px" }}}
+            >
               <Button type="submit">
                 <IoEnterOutline size={20} />
                 Entrar na sala
@@ -60,3 +64,5 @@ export default Home;
 // Criar a estrutura primeiro, depois fazer a estilização
 // funcionamento do webpack - todas as importações utilizando o JS no React
 // Contexto permite compartilhamento de informações entre as partes da aplicação
+// Link para documentação do react-icons: https://github.com/react-icons/react-icons
+// https://react-icons.github.io/react-icons/
