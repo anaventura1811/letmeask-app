@@ -1,5 +1,8 @@
 import firebase from 'firebase/app';
 
+import 'firebase/auth';
+import 'firebase/database';
+
 const firebaseConfig = {
   apiKey: "AIzaSyBZMG6gePLXPTVcwLwEnrl1QAxCBFfVgQA",
   authDomain: "letmeask-app-75bba.firebaseapp.com",
