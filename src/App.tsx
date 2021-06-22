@@ -1,13 +1,18 @@
-import Button from "./components/Button";
+import { Switch, Route } from 'react-router-dom';
+import NewRoom from "./pages/NewRoom";
+import Home from "./pages/Home";
+
+import { AuthContextProvider } from './contexts/AuthContext';
 
 function App() {
+
   return (
-    <>
-      <h1 className="App">
-        Hello World
-      </h1>
-      <Button></Button>
-    </>
+    <AuthContextProvider>
+      <Switch>
+        <Route path="/" exact component={ Home } />
+        <Route path="/rooms/new" component={ NewRoom } />
+      </Switch>
+    </AuthContextProvider>
   );
 }
 
@@ -22,3 +27,4 @@ export default App;
 // Propriedades - React: informações ou atributos que passamos aos componentes para que
 // eles possam se comportar de maneira diferente
 // --> diferença entre export default and named export
+// useEffect - efeitos colaterais, dispara função toda vez que algo acontecer
