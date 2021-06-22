@@ -8,3 +8,6 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+// DOM - Document Object Model
+// ReactDom renderiza o app dentro do HTML
