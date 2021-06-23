@@ -7,6 +7,7 @@ import logoImg from '../assets/images/logo.svg';
 import Button from '../components/Button';
 import RoomCode from '../components/RoomCode';
 import '../styles/room.scss';
+import Question from '../components/Question';
 
 type FirebaseQuestions = Record<string, {
   author: {
@@ -18,7 +19,7 @@ type FirebaseQuestions = Record<string, {
   isHighlighted: boolean;
 }> 
 
-type Question = {
+type QuestionType = {
   id: string;
   author: {
     name: string;
@@ -38,7 +39,7 @@ function Room() {
   const params = useParams<RoomParams>();
   const roomId = params.id;
   const [newQuestion, setNewQuestion] = useState('');
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [title, setTitle] = useState('');
 
   // hook que dispara um evento sempre que uma informação mudar
@@ -144,7 +145,16 @@ function Room() {
           </div>
         </form>
 
-        { JSON.stringify(questions)}
+        <div className="question-list">
+          { questions.map((question) => (
+            <Question
+              key={question.id}
+              content={ question.content}
+              author={ question.author }
+            />
+          )) }
+        </div>
+
       </main>
     </div>
   );
