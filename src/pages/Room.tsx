@@ -1,4 +1,4 @@
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
 import { useParams } from 'react-router-dom';
@@ -8,27 +8,8 @@ import Button from '../components/Button';
 import RoomCode from '../components/RoomCode';
 import '../styles/room.scss';
 import Question from '../components/Question';
+import { useRoom } from '../hooks/useRoom';
 
-type FirebaseQuestions = Record<string, {
-  author: {
-    name: string;
-    avatar: string;
-  }
-  content: string;
-  isAnswered: boolean;
-  isHighlighted: boolean;
-}> 
-
-type QuestionType = {
-  id: string;
-  author: {
-    name: string;
-    avatar: string;
-  }
-  content: string;
-  isAnswered: boolean;
-  isHighlighted: boolean;
-}
 
 type RoomParams = {
   id: string;
@@ -39,31 +20,7 @@ function Room() {
   const params = useParams<RoomParams>();
   const roomId = params.id;
   const [newQuestion, setNewQuestion] = useState('');
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
-  const [title, setTitle] = useState('');
-
-  // hook que dispara um evento sempre que uma informação mudar
-  useEffect(() => {
-    const roomRef = database.ref(`rooms/${roomId}`);
-
-    roomRef.on('value', room => {
-      const databaseRoom = room.val();
-      const fireBaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
-
-      const parsedQuestions = Object.entries(fireBaseQuestions).map(([key, value]) => {
-        return {
-          id: key,
-          content: value.content,
-          author: value.author,
-          isHighlighted: value.isHighlighted,
-          isAnswered: value.isAnswered,
-        }
-      })
-      console.log(parsedQuestions);
-      setTitle(databaseRoom.title);
-      setQuestions(parsedQuestions);
-    })
-  }, [roomId]); 
+  const { questions, title } = useRoom(roomId)
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();
@@ -100,14 +57,6 @@ function Room() {
     setNewQuestion('');
 
   }
-
-  // function renderQuestionsLength() {
-  //   if (questions.length === 1) {
-  //     (<span>{ questions.length} pergunta</span>)
-  //   } else {
-  //     (<span>{ questions.length } perguntas</span>)
-  //   }
-  //  }
 
   return (
     <div id="page-room">
