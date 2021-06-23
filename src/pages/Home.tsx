@@ -35,7 +35,6 @@ function Home() {
     const roomRef = await database.ref(`rooms/${roomCode}`).get();
 
     if (!roomRef.exists()) {
-      // window.alert('Room does not exist');
       toast.error('Sorry, this room does not exist', {
         position: "top-center",
         autoClose: false,
