@@ -1,6 +1,7 @@
 import React from 'react';
 import logoImg from '../assets/images/logo.svg';
 import Button from '../components/Button';
+import RoomCode from '../components/RoomCode';
 import '../styles/room.scss';
 
 function Room() {
@@ -9,7 +10,7 @@ function Room() {
       <header>
         <div className="content">
           <img src={logoImg} alt="Letmeask app" />
-          <div>Codigo da sala</div>
+          <RoomCode />
         </div>
       </header>
 
