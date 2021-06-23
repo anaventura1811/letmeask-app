@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { FormEvent, useState } from 'react';
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 import '../styles/auth.scss';
@@ -8,6 +9,14 @@ import Button from '../components/Button';
 function NewRoom() {
   // const { user } = useAuth();
   // Falta recuperar o estado da aplicação p/ conseguir recuperar estado de autenticação, persistência de dados
+  const [newRoom, setNewRoom] = useState('');
+  async function handleCreateRoom(event: FormEvent) {
+    event.preventDefault();
+    // console.log(newRoom);
+    if (newRoom.trim() === '') {
+      return;
+    }
+  }
 
  return (
     <div id="page-auth"> 
@@ -20,10 +29,12 @@ function NewRoom() {
         <div className="main-content">
           <img src={logoImg} alt="Letmeask" />
           <h2>Criar uma nova sala</h2>
-          <form>
+          <form onSubmit={ handleCreateRoom }>
             <input
               type="text"
               placeholder="Nome da sala"
+              onChange={(event) => setNewRoom(event.target.value)}
+              value={ newRoom }
             />
             <Button type="submit">
               Criar sala
