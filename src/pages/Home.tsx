@@ -1,4 +1,7 @@
 import { useHistory } from 'react-router-dom';
+import { FormEvent, useState } from 'react';
+import { toast } from 'react-toastify';
+import { database } from '../services/firebase';
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 import googleIconImg from '../assets/images/google-icon.svg';
@@ -13,12 +16,39 @@ import { IconContext } from "react-icons";
 function Home() {
   const history = useHistory();
   const { user, signInWithGoogle } = useAuth();
+  const [roomCode, setRoomCode] = useState('');
 
   async function handleCreateRoom() {
     if (!user) {
       await signInWithGoogle();
     }
     history.push('/rooms/new');
+  }
+
+  async function handleJoinRoom(event: FormEvent) {
+    event.preventDefault();
+
+    if (roomCode.trim() === '') {
+      return;
+    }
+
+    const roomRef = await database.ref(`rooms/${roomCode}`).get();
+
+    if (!roomRef.exists()) {
+      // window.alert('Room does not exist');
+      toast.error('Sorry, this room does not exist', {
+        position: "top-center",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+      return;
+    }
+
+    history.push(`/rooms/${roomCode}`);
   }
 
 
@@ -37,10 +67,12 @@ function Home() {
             Crie sua sala com o Google
           </button>
           <div className="separator">ou entre em uma sala</div>
-          <form>
+          <form onSubmit={ handleJoinRoom }>
             <input
               type="text"
               placeholder="Digite o código da sala"
+              onChange={(event) => setRoomCode(event.target.value)}
+              value={ roomCode }
             />
             <IconContext.Provider value={{ 
                 className: "react-icons",

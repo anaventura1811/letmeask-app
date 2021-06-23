@@ -2,8 +2,14 @@ import { Switch, Route } from 'react-router-dom';
 import NewRoom from "./pages/NewRoom";
 import Home from "./pages/Home";
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import { AuthContextProvider } from './contexts/AuthContext';
 import Room from './pages/Room';
+
+toast.configure()
 
 function App() {
 
