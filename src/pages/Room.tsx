@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
 import { useParams } from 'react-router-dom';
@@ -7,6 +7,27 @@ import logoImg from '../assets/images/logo.svg';
 import Button from '../components/Button';
 import RoomCode from '../components/RoomCode';
 import '../styles/room.scss';
+
+type FirebaseQuestions = Record<string, {
+  author: {
+    name: string;
+    avatar: string;
+  }
+  content: string;
+  isAnswered: boolean;
+  isHighlighted: boolean;
+}> 
+
+type Question = {
+  id: string;
+  author: {
+    name: string;
+    avatar: string;
+  }
+  content: string;
+  isAnswered: boolean;
+  isHighlighted: boolean;
+}
 
 type RoomParams = {
   id: string;
@@ -17,6 +38,31 @@ function Room() {
   const params = useParams<RoomParams>();
   const roomId = params.id;
   const [newQuestion, setNewQuestion] = useState('');
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [title, setTitle] = useState('');
+
+  // hook que dispara um evento sempre que uma informação mudar
+  useEffect(() => {
+    const roomRef = database.ref(`rooms/${roomId}`);
+
+    roomRef.on('value', room => {
+      const databaseRoom = room.val();
+      const fireBaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
+
+      const parsedQuestions = Object.entries(fireBaseQuestions).map(([key, value]) => {
+        return {
+          id: key,
+          content: value.content,
+          author: value.author,
+          isHighlighted: value.isHighlighted,
+          isAnswered: value.isAnswered,
+        }
+      })
+      console.log(parsedQuestions);
+      setTitle(databaseRoom.title);
+      setQuestions(parsedQuestions);
+    })
+  }, [roomId]); 
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();
@@ -26,7 +72,7 @@ function Room() {
     }
     if (!user) {
       // throw new Error('You must be logged in'); // adicionar toast de erro
-      toast.error('Sorry, you must be logged in', {
+      toast.error('Sorry, you must be logged in 😬', {
         position: "top-center",
         autoClose: false,
         hideProgressBar: true,
@@ -54,6 +100,14 @@ function Room() {
 
   }
 
+  // function renderQuestionsLength() {
+  //   if (questions.length === 1) {
+  //     (<span>{ questions.length} pergunta</span>)
+  //   } else {
+  //     (<span>{ questions.length } perguntas</span>)
+  //   }
+  //  }
+
   return (
     <div id="page-room">
       <header>
@@ -65,8 +119,10 @@ function Room() {
 
       <main>
         <div className="room-title">
-          <h1>Sala React</h1>
-          <span>4 perguntas</span>
+          <h1>{title}</h1>
+          { questions.length === 1 ? 
+          (<span>{ questions.length} pergunta</span>) 
+          : questions.length >= 2 && (<span>{ questions.length } perguntas</span>) }
         </div>
 
         <form onSubmit={ handleSendQuestion }>
@@ -87,6 +143,8 @@ function Room() {
             <Button type="submit" disabled={!user}>Enviar pergunta</Button>
           </div>
         </form>
+
+        { JSON.stringify(questions)}
       </main>
     </div>
   );

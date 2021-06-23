@@ -35,7 +35,7 @@ function Home() {
     const roomRef = await database.ref(`rooms/${roomCode}`).get();
 
     if (!roomRef.exists()) {
-      toast.error('Sorry, this room does not exist', {
+      toast.error('Sorry, this room does not exist 😬', {
         position: "top-center",
         autoClose: false,
         hideProgressBar: true,
@@ -97,3 +97,4 @@ export default Home;
 // Contexto permite compartilhamento de informações entre as partes da aplicação
 // Link para documentação do react-icons: https://github.com/react-icons/react-icons
 // https://react-icons.github.io/react-icons/
+// emojis retirados de: https://getemoji.com/
