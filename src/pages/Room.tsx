@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import logoImg from '../assets/images/logo.svg';
 import Button from '../components/Button';
 import RoomCode from '../components/RoomCode';
@@ -24,7 +25,17 @@ function Room() {
       return;
     }
     if (!user) {
-      throw new Error('You must be logged in'); // adicionar toast de erro
+      // throw new Error('You must be logged in'); // adicionar toast de erro
+      toast.error('Sorry, you must be logged in', {
+        position: "top-center",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+      return;
     }
 
     const question = {
