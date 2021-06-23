@@ -2,7 +2,14 @@ import { Switch, Route } from 'react-router-dom';
 import NewRoom from "./pages/NewRoom";
 import Home from "./pages/Home";
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import { AuthContextProvider } from './contexts/AuthContext';
+import Room from './pages/Room';
+
+toast.configure()
 
 function App() {
 
@@ -10,7 +17,8 @@ function App() {
     <AuthContextProvider>
       <Switch>
         <Route path="/" exact component={ Home } />
-        <Route path="/rooms/new" component={ NewRoom } />
+        <Route path="/rooms/new" exact component={ NewRoom } />
+        <Route path="/rooms/:id" component={ Room } />
       </Switch>
     </AuthContextProvider>
   );
