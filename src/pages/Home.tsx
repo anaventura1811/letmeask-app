@@ -47,7 +47,7 @@ function Home() {
       return;
     }
 
-    if (roomRef.val().endedAt) {
+    if (roomRef.val().closedAt) {
       toast.dark('Time is up! 😬 Room already closed.', {
         position: "top-center",
         autoClose: false,
