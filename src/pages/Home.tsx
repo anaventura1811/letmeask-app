@@ -48,7 +48,7 @@ function Home() {
     }
 
     if (roomRef.val().endedAt) {
-      alert('Room already closed.');
+      alert('Room already closed.'); // substituir por um toaster bonitinho
       return;
     }
 
