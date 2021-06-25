@@ -22,7 +22,7 @@ function Question({
   return (
     <div
       className={`question ${isAnswered ? 'answered' : ''}
-     ${isHighlighted ? 'highlighted' : ''}`}>
+     ${isHighlighted && !isAnswered ? 'highlighted' : ''}`}>
       <p>{ content }</p>
       <footer>
         <div className="user-info">
