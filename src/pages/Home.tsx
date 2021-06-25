@@ -47,6 +47,19 @@ function Home() {
       return;
     }
 
+    if (roomRef.val().closedAt) {
+      toast.dark('Time is up! 😬 Room already closed.', {
+        position: "top-center",
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+      return;
+    }
+
     history.push(`/rooms/${roomCode}`);
   }
 
