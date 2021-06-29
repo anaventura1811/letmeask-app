@@ -12,6 +12,7 @@ import { database } from '../services/firebase';
 import { useState } from 'react';
 import ModalQuestionDelete from '../components/ModalDeleteQuestion';
 import ModalCloseRoom from '../components/ModalCloseRoom';
+import NoQuestionList from '../components/NoQuestionList';
 
 
 type RoomParams = {
@@ -85,12 +86,6 @@ function AdminRoom() {
         onRequestClose={ handleCloseCloseRoomModal }
         onClick={ handleCloseRoom }
       />
-       {/* <Modal
-        isOpen={ isConfirmCloseRoomModalOpen }
-        onRequestClose={ handleCloseConfirmCloseRoomModal }
-        >
-          <h2>Tem certeza que você deseja encerrar esta sala</h2>
-      </Modal> */}
       <main>
         <div className="room-title">
           <h1>{title}</h1>
@@ -100,7 +95,7 @@ function AdminRoom() {
         </div>
 
         <div className="question-list">
-          { questions.map((question) => (
+          { questions.length > 0 ?( questions.map((question) => (
             <Question
               key={question.id}
               content={ question.content}
@@ -136,7 +131,12 @@ function AdminRoom() {
                   onClick={ () => handleDeleteQuestion(question.id)}
                 />
             </Question>
-          )) }
+          )) ) : (
+            <NoQuestionList>
+              <h3>Nenhuma pergunta por aqui...</h3>
+              <p>Envie o código desta sala para seus amigos e comece a responder perguntas!</p>
+            </NoQuestionList>
+          )}
         </div>
 
       </main>

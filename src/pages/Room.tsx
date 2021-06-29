@@ -4,7 +4,7 @@ import { database } from '../services/firebase';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import logoImg from '../assets/images/logo.svg';
-import ilustrationImg from '../assets/images/IlustrationRoom.svg';
+import NoQuestionList from '../components/NoQuestionList';
 import Button from '../components/Button';
 import RoomCode from '../components/RoomCode';
 import '../styles/room.scss';
@@ -17,12 +17,15 @@ type RoomParams = {
 }
 
 function Room() {
-  const { user } = useAuth();
+  const { user, signInWithGoogle } = useAuth();
   const params = useParams<RoomParams>();
   const roomId = params.id;
   const [newQuestion, setNewQuestion] = useState('');
   const { questions, title } = useRoom(roomId)
 
+  async function handleLogin() {
+   await signInWithGoogle();
+  }
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();
 
@@ -99,7 +102,7 @@ function Room() {
                 <span>{user.name}</span>
               </div>
             ) :  (
-              <span>Para enviar uma pergunta, <button>faça seu login</button>.</span>
+              <span>Para enviar uma pergunta, <button type="button" onClick={ handleLogin }>faça seu login</button>.</span>
             ) }
             <Button type="submit" disabled={!user}>Enviar pergunta</Button>
           </div>
@@ -129,15 +132,10 @@ function Room() {
               ) }
             </Question>
           ))) : (
-            <div className="container-no-question-list">
-              <div className="image-container">
-                <img src={ ilustrationImg } alt="Imagem conversas" />
-              </div>
-              <div className="no-question-container">
-                <h3>Nenhuma pergunta por aqui...</h3>
-                <p>Faça o seu login e seja a primeira pessoa a fazer uma pergunta!</p>
-              </div>
-            </div>
+            <NoQuestionList>
+              <h3>Nenhuma pergunta por aqui...</h3>
+              <p>Faça o seu login e seja a primeira pessoa a fazer uma pergunta!</p>
+            </NoQuestionList>
           )
         }
         </div>
