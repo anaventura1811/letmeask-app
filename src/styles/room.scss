@@ -108,5 +108,37 @@
     .question-list {
       margin-top: 32px;
     }
+
+    .container-no-question-list {
+      display: flex;
+      flex-direction: column;
+
+      .image-container {
+        display: block;
+        margin: 0 auto;
+        max-width: 150px;
+        max-height: 150px;
+      }
+
+      .no-question-container {
+        display: flex;
+        flex-direction: column;
+        margin: 40px auto;
+        color: #29292E;
+        font: 400 18px 'Poppins', sans-serif;
+
+        h3 {
+          margin: 0 auto;
+        }
+
+        p {
+          color: #737380;
+          font: 400 14px 'Roboto', sans-serif;
+          margin: 0 auto;
+          margin-top: 10px;
+        }
+      }
+      
+    }
   }
 }

@@ -4,6 +4,7 @@ import { database } from '../services/firebase';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import logoImg from '../assets/images/logo.svg';
+import ilustrationImg from '../assets/images/IlustrationRoom.svg';
 import Button from '../components/Button';
 import RoomCode from '../components/RoomCode';
 import '../styles/room.scss';
@@ -105,7 +106,7 @@ function Room() {
         </form>
 
         <div className="question-list">
-          { questions.map((question) => (
+          { questions.length > 0 ? (questions.map((question) => (
             <Question
               key={question.id}
               content={ question.content }
@@ -127,7 +128,18 @@ function Room() {
                 </button>
               ) }
             </Question>
-          )) }
+          ))) : (
+            <div className="container-no-question-list">
+              <div className="image-container">
+                <img src={ ilustrationImg } alt="Imagem conversas" />
+              </div>
+              <div className="no-question-container">
+                <h3>Nenhuma pergunta por aqui...</h3>
+                <p>Faça o seu login e seja a primeira pessoa a fazer uma pergunta!</p>
+              </div>
+            </div>
+          )
+        }
         </div>
       </main>
     </div>

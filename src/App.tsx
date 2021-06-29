@@ -4,11 +4,13 @@ import Home from "./pages/Home";
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Modal from 'react-modal';
 
 import { AuthContextProvider } from './contexts/AuthContext';
 import Room from './pages/Room';
 import AdminRoom from './pages/AdminRoom';
+
+Modal.setAppElement('#root'); // acessibilidade modal
 
 toast.configure()
 

@@ -9,6 +9,9 @@ import '../styles/room.scss';
 import Question from '../components/Question';
 import { useRoom } from '../hooks/useRoom';
 import { database } from '../services/firebase';
+import { useState } from 'react';
+import ModalQuestionDelete from '../components/ModalDeleteQuestion';
+import ModalCloseRoom from '../components/ModalCloseRoom';
 
 
 type RoomParams = {
@@ -16,6 +19,25 @@ type RoomParams = {
 }
 
 function AdminRoom() {
+  const [isConfirmEraseQuestionModalOpen, setConfirmEraseQuestionModalOpen] = useState(false);
+  const [isConfirmCloseRoom, setIsConfirmCloseRoom] = useState(false);
+
+  const handleOpenConfirmEraseQuestion = () => {
+    setConfirmEraseQuestionModalOpen(true);
+  }
+
+  const handleCloseEraseQuestionModal = () => {
+    setConfirmEraseQuestionModalOpen(false);
+  }
+
+  const handleOpenCloseRoomModal = () => {
+    setIsConfirmCloseRoom(true);
+  }
+
+  const handleCloseCloseRoomModal = () => {
+    setIsConfirmCloseRoom(false);
+  }
+
   const history = useHistory();
   const params = useParams<RoomParams>();
   const roomId = params.id;
@@ -31,9 +53,8 @@ function AdminRoom() {
   }
 
   async function handleDeleteQuestion(questionId: string) {
-    if (window.confirm('Tem certeza que você deseja excluir esta pergunta?')) {
-      await database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
-    }
+    await database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
+    setConfirmEraseQuestionModalOpen(false);
   }
 
   async function handleCheckQuestionAsAnswered(questionId: string) {
@@ -55,11 +76,21 @@ function AdminRoom() {
           <img src={logoImg} alt="Letmeask app" />
           <div>
             <RoomCode code={roomId} />
-            <Button isOutlined onClick={ handleCloseRoom }>Encerrar sala</Button>
+            <Button isOutlined onClick={ handleOpenCloseRoomModal }>Encerrar sala</Button>
           </div>
         </div>
       </header>
-
+      <ModalCloseRoom
+        isOpen={ isConfirmCloseRoom }
+        onRequestClose={ handleCloseCloseRoomModal }
+        onClick={ handleCloseRoom }
+      />
+       {/* <Modal
+        isOpen={ isConfirmCloseRoomModalOpen }
+        onRequestClose={ handleCloseConfirmCloseRoomModal }
+        >
+          <h2>Tem certeza que você deseja encerrar esta sala</h2>
+      </Modal> */}
       <main>
         <div className="room-title">
           <h1>{title}</h1>
@@ -95,10 +126,15 @@ function AdminRoom() {
               )}
               <button
                 type="button"
-                onClick={() => handleDeleteQuestion(question.id)}
+                onClick={ handleOpenConfirmEraseQuestion }
               >
                 <img src={deleteImg} alt="Remover pergunta" />
               </button>
+               <ModalQuestionDelete  // modal de remoção de pergunta
+                  isOpen={ isConfirmEraseQuestionModalOpen }
+                  onRequestClose={ handleCloseEraseQuestionModal }
+                  onClick={ () => handleDeleteQuestion(question.id)}
+                />
             </Question>
           )) }
         </div>
