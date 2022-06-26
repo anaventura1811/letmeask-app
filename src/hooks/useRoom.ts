@@ -30,10 +30,11 @@ type QuestionType = {
   likeId: string | undefined;
 }
 
-export function useRoom(roomId : string) {
+export function useRoom(roomId : string | any) {
   const { user } = useAuth();
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [title, setTitle] = useState('');
+  const [isRoomClosed, setRoomClosed] = useState(false);
 
    // hook que dispara um evento sempre que uma informação mudar
   useEffect(() => {
@@ -65,7 +66,8 @@ export function useRoom(roomId : string) {
   }, [roomId, user?.id]); 
 
   return { 
-    questions, title
+    questions, title,
+    isRoomClosed, setRoomClosed
   }
 
 }

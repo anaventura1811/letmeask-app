@@ -1,0 +1,42 @@
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 40px auto;
+  button {
+    & + button {
+      margin-left: 10px;
+    }
+  }
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+
+  h2 {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin: 20px auto;
+  }
+
+  p {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    margin: 0 auto;
+    color: #737380;
+  }
+}
+
+.container-img {
+  display: block;
+  align-self: center;
+  margin: 40px 20px auto;
+}
+
+#cancel-btn {
+  font-weight: 400;
+}

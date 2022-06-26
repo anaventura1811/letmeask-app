@@ -1,20 +1,22 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { database } from '../services/firebase';
-import illustrationImg from '../assets/images/illustration.svg';
-import logoImg from '../assets/images/logo.svg';
-import googleIconImg from '../assets/images/google-icon.svg';
+import illustrationImg from '../assets/images/scandi-17.png';
+
+// import googleIconImg from '../assets/images/google-icon.svg';
 import '../styles/auth.scss';
 import Button from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
 import { IoEnterOutline } from "react-icons/io5";
 import { IconContext } from "react-icons";
+import Icon from '../components/Icon';
+import { GoogleIcon } from '../components/Google';
 
 
 
 function Home() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { user, signInWithGoogle } = useAuth();
   const [roomCode, setRoomCode] = useState('');
 
@@ -22,7 +24,7 @@ function Home() {
     if (!user) {
       await signInWithGoogle();
     }
-    history.push('/rooms/new');
+    navigate('/rooms/new');
   }
 
   async function handleJoinRoom(event: FormEvent) {
@@ -60,22 +62,24 @@ function Home() {
       return;
     }
 
-    history.push(`/rooms/${roomCode}`);
+    navigate(`/rooms/${roomCode}`);
   }
 
 
   return (
     <div id="page-auth"> 
       <aside>
-        <img src={illustrationImg} alt="Ilustração simbolizando perguntas e respostas" />
-        <strong>Crie salas de Q&amp;A ao vivo</strong>
-        <p>Tire as dúvidas da sua audiência em tempo real</p>
+        <img src={illustrationImg} alt="Ilustração de uma abelha feliz" />
+        <strong>Dê um buzz no seu evento</strong>
+        <p>Crie salas de Q&amp;A ao vivo e tire as dúvidas da sua audiência em tempo real</p>
       </aside>
       <main>
         <div className="main-content">
-          <img src={logoImg} alt="Letmeask" />
+          
+          <Icon size={220} />
           <button type="button" onClick={handleCreateRoom} className="create-room">
-            <img src={googleIconImg} alt="Logo do Google" />
+            {/* <img src={googleIconImg} alt="Logo do Google" /> */}
+            <GoogleIcon />
             Crie sua sala com o Google
           </button>
           <div className="separator">ou entre em uma sala</div>
