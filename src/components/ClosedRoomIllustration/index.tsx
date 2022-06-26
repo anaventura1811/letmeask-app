@@ -1,11 +1,17 @@
 import React from "react";
 
-export function ClosedRoomIllustration() {
+interface ClosedRoomIllustrationProps {
+  width?: string;
+  height?: string;
+}
+
+export function ClosedRoomIllustration(props: ClosedRoomIllustrationProps) {
+  const { width, height } = props;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="420"
-      height="330"
+      width={`${width ? width : '420'}`}
+      height={`${height ? height : '330'}`}
       data-name="Layer 1"
       viewBox="0 0 672.532 738.394"
     >

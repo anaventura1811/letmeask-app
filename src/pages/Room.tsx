@@ -11,6 +11,8 @@ import Question from '../components/Question';
 import { useRoom } from '../hooks/useRoom';
 import IconLine from '../components/IconLine';
 import { ClosedRoomIllustration } from '../components/ClosedRoomIllustration';
+import { useWindowSize } from '../hooks/useWindowSize';
+import Modal from 'react-modal';
 
 
 type RoomParams = {
@@ -26,6 +28,10 @@ function Room() {
   const { questions, title, isRoomClosed } = useRoom(roomId);
   const [closedRoom, setClosedRoom] = useState(false);
   const roomRef = database.ref(`rooms/${roomId}`);
+
+  const windowSize = useWindowSize();
+  const mobileBreakpoint = windowSize.innerWidth <= 450;
+
 
   useEffect(() => {
     let cancel = false;
@@ -150,8 +156,8 @@ function Room() {
             ) : (
               <div className='closed-room-warning'>
                 <span className='illustration'>
-                  A sala foi fechada pelo administrador.
-                  <ClosedRoomIllustration />
+                  <h3>A sala foi fechada pelo administrador.</h3>
+                  <ClosedRoomIllustration width={`${mobileBreakpoint ? '80vw' : ''}`} height={`${mobileBreakpoint ? '50vh' : ''}`} />
 
                 </span>
                 <span>
@@ -200,6 +206,8 @@ function Room() {
         }
         </div>
       </main>
+      <div>
+      </div>
     </div>
   );
 }

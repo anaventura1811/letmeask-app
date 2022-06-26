@@ -2,7 +2,7 @@
   background: #fefefe;
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-  padding: 24px;
+  padding: 16px 18px 12px 18px;
 
   & + .question {
     margin-top: 8px; // toda question que vier seguida de outra question, add 8px de margin na segunda question
@@ -28,17 +28,19 @@
 
   footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
     margin-top: 24px;
+    gap: 0.5rem;
 
     .user-info {
       display: flex;
       align-items: center;
 
       img {
-        width: 32px;
-        height: 32px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
       }
 
@@ -74,5 +76,27 @@
         filter: brightness(0.7);
       }
     }
+
+    @media (min-width: 840px) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+
+      footer {
+        gap: unset;
+      }
+
+      .user-info {
+        img {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 840px) {
+    padding: 24px;
   }
 }

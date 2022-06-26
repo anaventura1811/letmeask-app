@@ -1,0 +1,12 @@
+footer {
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  align-items: center;
+  border-top: 1px solid #e2e2e2;
+  padding: 10px;
+  position: relative;
+  bottom: 0;
+  top: 0;
+  width: 100vw;
+}

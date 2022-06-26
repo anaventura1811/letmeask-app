@@ -1,7 +1,11 @@
 import React from "react";
 
-export function CopyIcon() {
-  
+interface CopyIconProps {
+  stroke?: string;
+}
+
+export function CopyIcon({ stroke }: CopyIconProps) {
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -11,14 +15,14 @@ export function CopyIcon() {
       viewBox="0 0 20 20"
     >
       <path
-        stroke="#F8F8F8"
+        stroke={`${stroke ? stroke : "#F8F8F8"} `}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
         d="M16.667 7.5h-7.5c-.92 0-1.667.746-1.667 1.667v7.5c0 .92.746 1.666 1.667 1.666h7.5c.92 0 1.666-.746 1.666-1.666v-7.5c0-.92-.746-1.667-1.666-1.667z"
       ></path>
       <path
-        stroke="#F8F8F8"
+        stroke={`${stroke ? stroke : "#F8F8F8"} `}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"

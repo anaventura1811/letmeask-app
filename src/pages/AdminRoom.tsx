@@ -14,6 +14,9 @@ import IconLine from '../components/IconLine';
 import { CheckIcon } from '../components/Check';
 import { DeleteIcon } from '../components/Delete';
 import { AnswerIcon } from '../components/AnswerIcon';
+import { List, XCircle } from 'phosphor-react';
+import { useWindowSize } from '../hooks/useWindowSize';
+import { FooterMenu } from '../components/FooterMenu';
 
 
 type RoomParams = {
@@ -23,6 +26,10 @@ type RoomParams = {
 function AdminRoom() {
   const [isConfirmEraseQuestionModalOpen, setConfirmEraseQuestionModalOpen] = useState(false);
   const [isConfirmCloseRoom, setIsConfirmCloseRoom] = useState(false);
+
+  const windowSize = useWindowSize();
+  const mobile = windowSize.innerWidth <= 839;
+  console.log('window size', windowSize);
 
   const handleOpenConfirmEraseQuestion = () => {
     setConfirmEraseQuestionModalOpen(true);
@@ -80,8 +87,21 @@ function AdminRoom() {
         <div className="content">
           <IconLine size={230} height={82} />
           <div>
-            <RoomCode code={roomId} />
-            <Button isOutlined onClick={ handleOpenCloseRoomModal }>Encerrar sala</Button>
+             {
+               mobile
+                ? (
+                  <>
+                    <RoomCode code={roomId} />
+                    <XCircle onClick={handleOpenCloseRoomModal} size={32}  />
+                  </>
+               ) : (
+                 <>
+                  <RoomCode code={roomId} />
+                  <Button isOutlined onClick={handleOpenCloseRoomModal}>Encerrar sala</Button>
+                 </>
+               )
+             }
+            
           </div>
         </div>
       </header>
@@ -144,6 +164,14 @@ function AdminRoom() {
         </div>
 
       </main>
+      <>
+        {/* {mobile && (
+          <FooterMenu
+            roomId={roomId}
+            handleOpenCloseRoomModal={handleOpenCloseRoomModal}
+          />
+        )} */}
+      </>
     </div>
   );
 }
