@@ -29,6 +29,37 @@
     max-width: 800px;
     margin: 0 auto;
 
+    .closed-room-warning {
+      margin-top: 2.4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+
+      .illustration {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+      }
+    }
+
+
+    span {
+      .btn-close {
+        display: block;
+        margin-top: 2rem;
+        background: #cf9c35;
+        border: 0;
+        color: white;
+        text-decoration: underline;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+    }
+
     .room-title {
       margin: 32px 0 24px;
       display: flex;
@@ -73,12 +104,15 @@
           display: flex;
           align-items: center;
 
-          img {
+          img, .user-ava {
             width: 32px;
             height: 32px;
             border-radius: 50%;
           }
 
+          .user-ava {
+            background: #e5ad;
+          }
           span {
             margin-left: 8px;
             color: #29292e;
@@ -92,7 +126,7 @@
           color: #737380;
           font-weight: 500;
 
-          button {
+          button, .btn-close {
             background: transparent;
             border: 0;
             color: #cf9c35;

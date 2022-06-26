@@ -48,11 +48,13 @@ function AdminRoom() {
   console.log(questions);
 
   async function handleCloseRoom() {
-    await database.ref(`rooms/${roomId}`).update({
-      closedAt: new Date(),
-    })
-    // setRoomClosed(true);
-    navigate('/');
+    if (roomId) {
+      await database.ref(`rooms/${roomId}`).update({
+        closedAt: new Date(),
+      })
+      setRoomClosed(roomId);
+      navigate('/');
+    }
   }
 
   async function handleDeleteQuestion(questionId: string) {

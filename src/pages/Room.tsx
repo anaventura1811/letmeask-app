@@ -1,9 +1,8 @@
 import { useState, FormEvent, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import logoImg from '../assets/images/logo.svg';
 import NoQuestionList from '../components/NoQuestionList';
 import Button from '../components/Button';
 import RoomCode from '../components/RoomCode';
@@ -11,6 +10,7 @@ import '../styles/room.scss';
 import Question from '../components/Question';
 import { useRoom } from '../hooks/useRoom';
 import IconLine from '../components/IconLine';
+import { ClosedRoomIllustration } from '../components/ClosedRoomIllustration';
 
 
 type RoomParams = {
@@ -23,21 +23,38 @@ function Room() {
   const navigate = useNavigate();
   const roomId = params.id;
   const [newQuestion, setNewQuestion] = useState('');
-  const { questions, title, isRoomClosed } = useRoom(roomId)
+  const { questions, title, isRoomClosed } = useRoom(roomId);
+  const [closedRoom, setClosedRoom] = useState(false);
+  const roomRef = database.ref(`rooms/${roomId}`);
 
-  // useEffect(() => {
-  //   let cancel = false;
-  //   if (cancel) {
-  //     return;
-  //   }
-  //   if (isRoomClosed) {
-  //     navigate('/');
-  //   }
-  //   return () => {
-  //     cancel = true;
-  //   }
+  useEffect(() => {
+    let cancel = false;
+    if (cancel) {
+      return;
+    }
 
-  // }, [isRoomClosed])
+    const verifyRoomRef = async() => {
+      if (roomId) {
+        
+        roomRef.on('value', (snapshot) => {
+          const data = snapshot.val().closedAt;
+          console.log('data', data);
+          if (data) {
+            setClosedRoom(true);
+          }
+        })
+      }
+
+    } 
+    verifyRoomRef();
+
+    return () => {
+      setClosedRoom(false);
+      cancel = true;
+
+    }
+
+  }, [roomId, isRoomClosed, roomRef])
 
   async function handleLogin() {
    await signInWithGoogle();
@@ -92,7 +109,9 @@ function Room() {
     <div id="page-room">
       <header>
         <div className="content">
-          <IconLine size={230} height={82}/>
+          <Link to="/">
+            <IconLine size={230} height={82}/>
+          </Link>
           <RoomCode code={roomId} />
         </div>
       </header>
@@ -104,25 +123,44 @@ function Room() {
           (<span>{ questions.length} pergunta</span>) 
           : questions.length >= 2 && (<span>{ questions.length } perguntas</span>) }
         </div>
+        <>
+            {!closedRoom ? (
+              <form onSubmit={ handleSendQuestion }>
+              <textarea
+                placeholder="O que você quer perguntar?"
+                onChange={(event) => setNewQuestion(event.target.value)}
+                value={ newQuestion }
+              />
+              <div className="form-footer">
+                { user ? (
+                  <div className="user-info">
+                    { user.avatar ? 
+                      (<img src={user.avatar} alt={user.name} />) : 
+                      (<span className='user-ava'>{user.name[0]}</span>)
 
-        <form onSubmit={ handleSendQuestion }>
-          <textarea
-            placeholder="O que você quer perguntar?"
-            onChange={(event) => setNewQuestion(event.target.value)}
-            value={ newQuestion }
-          />
-          <div className="form-footer">
-            { user ? (
-              <div className="user-info">
-                <img src={user.avatar} alt={user.name} />
-                <span>{user.name}</span>
+                    }
+                    <span>{user.name}</span>
+                  </div>
+                ) :  (
+                  <span>Para enviar uma pergunta, <button type="button" onClick={ handleLogin }>faça seu login</button>.</span>
+                ) }
+                <Button type="submit" disabled={!user}>Enviar pergunta</Button>
               </div>
-            ) :  (
-              <span>Para enviar uma pergunta, <button type="button" onClick={ handleLogin }>faça seu login</button>.</span>
-            ) }
-            <Button type="submit" disabled={!user}>Enviar pergunta</Button>
-          </div>
-        </form>
+            </form>
+            ) : (
+              <div className='closed-room-warning'>
+                <span className='illustration'>
+                  A sala foi fechada pelo administrador.
+                  <ClosedRoomIllustration />
+
+                </span>
+                <span>
+                  <Button id="btn-back-home" type='button' onClick={() => navigate('/')}>Voltar para Home</Button>
+                </span>
+              </div>
+            )}
+        </>
+        
 
         <div className="question-list">
           { questions.length > 0 ? (questions.map((question) => (
@@ -148,12 +186,16 @@ function Room() {
               ) }
             </Question>
           ))) : (
-            <NoQuestionList>
-              <h3>Nenhuma pergunta por aqui...</h3>
-              <p>
-                {!user ? 'Faça o seu login e seja a primeira pessoa a fazer uma pergunta!' : 'Seja a primeira pessoa a fazer uma pergunta!'}
-              </p>
-            </NoQuestionList>
+            <>
+              {!closedRoom && (
+                <NoQuestionList>
+                  <h3>Nenhuma pergunta por aqui...</h3>
+                  <p>
+                    {!user ? 'Faça o seu login e seja a primeira pessoa a fazer uma pergunta!' : 'Seja a primeira pessoa a fazer uma pergunta!'}
+                  </p>
+                </NoQuestionList>
+              )}
+            </>
           )
         }
         </div>

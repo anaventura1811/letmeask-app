@@ -34,7 +34,7 @@ export function useRoom(roomId : string | any) {
   const { user } = useAuth();
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [title, setTitle] = useState('');
-  const [isRoomClosed, setRoomClosed] = useState(false);
+  const [isRoomClosed, setRoomClosed] = useState('');
 
    // hook que dispara um evento sempre que uma informação mudar
   useEffect(() => {
