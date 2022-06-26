@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import '../../styles/room.scss';
-import ilustrationImg from '../../assets/images/IlustrationRoom.svg';
+import ChatIllustration from '../Chat';
 
 interface NoQuestionListProps {
   children: ReactNode;
@@ -10,7 +10,7 @@ function NoQuestionList({ children }: NoQuestionListProps) {
   return (
     <div className="container-no-question-list">
       <div className="image-container">
-        <img src={ ilustrationImg } alt="Imagem conversas" />
+        <ChatIllustration size={230} height={130} />
       </div>
       <div className="no-question-container">
        { children }

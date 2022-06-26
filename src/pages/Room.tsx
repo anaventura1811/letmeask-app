@@ -1,7 +1,7 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import logoImg from '../assets/images/logo.svg';
 import NoQuestionList from '../components/NoQuestionList';
@@ -10,6 +10,7 @@ import RoomCode from '../components/RoomCode';
 import '../styles/room.scss';
 import Question from '../components/Question';
 import { useRoom } from '../hooks/useRoom';
+import IconLine from '../components/IconLine';
 
 
 type RoomParams = {
@@ -19,9 +20,24 @@ type RoomParams = {
 function Room() {
   const { user, signInWithGoogle } = useAuth();
   const params = useParams<RoomParams>();
+  const navigate = useNavigate();
   const roomId = params.id;
   const [newQuestion, setNewQuestion] = useState('');
-  const { questions, title } = useRoom(roomId)
+  const { questions, title, isRoomClosed } = useRoom(roomId)
+
+  // useEffect(() => {
+  //   let cancel = false;
+  //   if (cancel) {
+  //     return;
+  //   }
+  //   if (isRoomClosed) {
+  //     navigate('/');
+  //   }
+  //   return () => {
+  //     cancel = true;
+  //   }
+
+  // }, [isRoomClosed])
 
   async function handleLogin() {
    await signInWithGoogle();
@@ -76,7 +92,7 @@ function Room() {
     <div id="page-room">
       <header>
         <div className="content">
-          <img src={logoImg} alt="Letmeask app" />
+          <IconLine size={230} height={82}/>
           <RoomCode code={roomId} />
         </div>
       </header>
@@ -134,7 +150,9 @@ function Room() {
           ))) : (
             <NoQuestionList>
               <h3>Nenhuma pergunta por aqui...</h3>
-              <p>Faça o seu login e seja a primeira pessoa a fazer uma pergunta!</p>
+              <p>
+                {!user ? 'Faça o seu login e seja a primeira pessoa a fazer uma pergunta!' : 'Seja a primeira pessoa a fazer uma pergunta!'}
+              </p>
             </NoQuestionList>
           )
         }

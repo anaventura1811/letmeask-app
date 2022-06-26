@@ -1,8 +1,5 @@
-import { useHistory, useParams } from 'react-router-dom';
-import logoImg from '../assets/images/logo.svg';
-import deleteImg from '../assets/images/delete.svg';
-import checkImg from '../assets/images/check.svg';
-import answerImg from '../assets/images/answer.svg';
+import { useNavigate, useParams } from 'react-router-dom';
+// import answerImg from '../assets/images/answer.svg';
 import Button from '../components/Button';
 import RoomCode from '../components/RoomCode';
 import '../styles/room.scss';
@@ -13,6 +10,10 @@ import { useState } from 'react';
 import ModalQuestionDelete from '../components/ModalDeleteQuestion';
 import ModalCloseRoom from '../components/ModalCloseRoom';
 import NoQuestionList from '../components/NoQuestionList';
+import IconLine from '../components/IconLine';
+import { CheckIcon } from '../components/Check';
+import { DeleteIcon } from '../components/Delete';
+import { AnswerIcon } from '../components/AnswerIcon';
 
 
 type RoomParams = {
@@ -39,10 +40,10 @@ function AdminRoom() {
     setIsConfirmCloseRoom(false);
   }
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const params = useParams<RoomParams>();
   const roomId = params.id;
-  const { questions, title } = useRoom(roomId);
+  const { questions, title, setRoomClosed } = useRoom(roomId);
 
   console.log(questions);
 
@@ -50,7 +51,8 @@ function AdminRoom() {
     await database.ref(`rooms/${roomId}`).update({
       closedAt: new Date(),
     })
-    history.push('/');
+    // setRoomClosed(true);
+    navigate('/');
   }
 
   async function handleDeleteQuestion(questionId: string) {
@@ -74,7 +76,7 @@ function AdminRoom() {
     <div id="page-room">
       <header>
         <div className="content">
-          <img src={logoImg} alt="Letmeask app" />
+          <IconLine size={230} height={82} />
           <div>
             <RoomCode code={roomId} />
             <Button isOutlined onClick={ handleOpenCloseRoomModal }>Encerrar sala</Button>
@@ -109,13 +111,13 @@ function AdminRoom() {
                     type="button"
                     onClick={() => handleCheckQuestionAsAnswered(question.id)}
                   >
-                    <img src={checkImg} alt="Marcar pergunta como respondida" />
+                    <CheckIcon />
                   </button>
                   <button
                     type="button"
                     onClick={() => handleHighlightQuestion(question.id)}
                   >
-                    <img src={answerImg} alt="Dar destaque à pergunta" />
+                    <AnswerIcon />
                   </button>
                 </>
               )}
@@ -123,7 +125,7 @@ function AdminRoom() {
                 type="button"
                 onClick={ handleOpenConfirmEraseQuestion }
               >
-                <img src={deleteImg} alt="Remover pergunta" />
+                <DeleteIcon />
               </button>
                <ModalQuestionDelete  // modal de remoção de pergunta
                   isOpen={ isConfirmEraseQuestionModalOpen }
