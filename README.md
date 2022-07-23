@@ -19,7 +19,6 @@ Ou pode ver o resultado, que está disponível aqui: https://buzz-around.vercel.
 - React
 - TypeScript
 - Vite
-- React Router Dom
 - Deploy com Vercel
 - Sass
 - Firebase (autenticação e Real Time Database)
