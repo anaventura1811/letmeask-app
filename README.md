@@ -13,7 +13,7 @@ Na pasta do projeto, você pode executar:
 Assim, você roda o app localmente, eu modo de desenvolvimento.
 Abra [http://localhost:3000](http://localhost:3000) para ver o projeto no browser.
 
-Ou pode ver o resultado, que está disponível neste [link] (https://buzz-around.vercel.app/)
+Ou pode ver o resultado, que está disponível aqui: https://buzz-around.vercel.app/
 
 ## Tecnologias utilizadas:
 - React
